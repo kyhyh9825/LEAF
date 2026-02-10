@@ -18,13 +18,8 @@ This tool converts custom assembly language into a Minecraft `.schem` file (Spon
 
 ### Build
 Since this project uses zlib for generating compressed schematic files, you must link the library during compilation.
-**Windows (MinGW/GCC)**
-```DOS
-gcc main.c -o assembler.exe -lz
 ```
-**Linux / macOS**
-```bash
-gcc main.c -o assembler -lz -lm
+gcc main.c zlib-1.3.1/*.c -o assembler -I zlib-1.3.1
 ```
 
 ### Usage
@@ -54,13 +49,8 @@ gcc main.c -o assembler -lz -lm
     * Linux: `sudo apt-get install zlib1g-dev`
 
 ### 빌드
-**Windows (MinGW/GCC)**
-```DOS
-gcc main.c -o assembler.exe -lz
 ```
-**Linux / macOS**
-```bash
-gcc main.c -o assembler -lz -lm
+gcc main.c zlib-1.3.1/*.c -o assembler -I zlib-1.3.1
 ```
 
 ### 사용법
