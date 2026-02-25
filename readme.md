@@ -12,12 +12,6 @@ This tool converts custom assembly language into a Minecraft `.schem` file (Spon
 * **Label Support:** Easy jumping and branching using labels (e.g., `LOOP:`, `JMP LOOP`) without manual address calculation.
 * **Safety Checks:** Detects redundant instructions and long pipeline stalls.
 
-### Prerequisites
-* **GCC** Compiler
-* **zlib** Development Library
-    * Windows: Install via MinGW/MSYS2.
-    * Linux: `sudo apt-get install zlib1g-dev`
-
 ### Build
 ```
 gcc main.c zlib-1.3.1/*.c -o assembler -I zlib-1.3.1
@@ -42,12 +36,6 @@ gcc main.c zlib-1.3.1/*.c -o assembler -I zlib-1.3.1
 ### 주요 기능
 * **라벨 지원:** 라벨을 이용하여 주소 계산 없이 편리하게 분기 (e.g., `LOOP:`, `JMP LOOP`)할 수 있습니다.
 * **최적화 경고:** 불필요한 명령어나 긴 파이프라인 스톨(Stall)을 유발할 수 있는 코드를 감지합니다.
-
-### 요구사항
-* **GCC** 컴파일러
-* **zlib** 압축 라이브러리
-    * Windows: MinGW 또는 MSYS2 환경에 `zlib` 라이브러리가 설치되어 있어야 합니다.
-    * Linux: `sudo apt-get install zlib1g-dev`
 
 ### 빌드
 ```
