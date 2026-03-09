@@ -367,8 +367,8 @@ instruction_t assemble_line(char* line, int line_num)
     else if (!strcmp(m, "JGEZ")) cond = 6;
     else if (!strcmp(m, "JOF")) cond = 7;
     else if (!strcmp(m, "JCF")) cond = 8;
-    else if (!strcmp(m, "JE")) cond = 9;
-    else if (!strcmp(m, "JO")) cond = 10;
+    else if (!strcmp(m, "JEV")) cond = 9;
+    else if (!strcmp(m, "JOD")) cond = 10;
 
     if (cond != -1)
     {
