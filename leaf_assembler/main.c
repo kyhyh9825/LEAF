@@ -15,7 +15,7 @@
 #include <stdint.h>
 #include <ctype.h>
 #include <math.h>
-#include <zlib.h>
+#include "zlib-1.3.1/zlib.h"
 
 // --- Settings ---
 #define MAX_PAGES_LIMIT 1024
@@ -26,7 +26,7 @@
 #define MC_DATA_VERSION 2586
 
 // --- Label Settings ---
-#define MAX_LABELS 1024
+#define MAX_LABELS 4096
 #define MAX_LABEL_LEN 64
 
 typedef uint32_t instruction_t;
@@ -157,6 +157,10 @@ instruction_t assemble_line(char* line, int line_num)
         *dot = '\0';
         strcpy(sub_type, dot + 1);
     }
+
+    // Capitalize
+    for (int i = 0; m[i]; i++) m[i] = toupper((unsigned char)m[i]);
+    for (int i = 0; sub_type[i]; i++) sub_type[i] = toupper((unsigned char)sub_type[i]);
 
     if (m[strlen(m) - 1] == ':') return 0; // Skip Labels
 
@@ -321,37 +325,14 @@ instruction_t assemble_line(char* line, int line_num)
         return (op << 26) | (ctrl << 24) | (r_dest << 20) | (r_src1 << 16) | (imm_val & 0xFFFF);
     }
 
-    // STR: [16] [10] [SrcData] [Base] [Imm]
-    // Note: STR Src, Base, Offset
+    // STR: [16] [10] [Base] [SrcData] [Imm]
+    // Note: STR Base, Src, Offset
     if (!strcmp(m, "STR"))
     {
         op = 16; ctrl = 2;
-        GET_REG(r_dest, a[0]); // SrcData maps to Dest field
-        GET_REG(r_src1, a[1]); // Base maps to Src1 field
+        GET_REG(r_src1, a[0]);
+        GET_REG(r_dest, a[1]);
         imm_val = parse_arg(a[2]);
-        return (op << 26) | (ctrl << 24) | (r_dest << 20) | (r_src1 << 16) | (imm_val & 0xFFFF);
-    }
-
-    // --- Stack Operations ---
-    // PSH: [17] [10] [SrcData] [SP] [Imm]
-    // Syntax: PSH Src, Offset
-    if (!strcmp(m, "PSH"))
-    {
-        op = 17; ctrl = 2;
-        GET_REG(r_dest, a[0]); // SrcData maps to Dest field
-        r_src1 = 15; // SP
-        imm_val = parse_arg(a[1]);
-        return (op << 26) | (ctrl << 24) | (r_dest << 20) | (r_src1 << 16) | (imm_val & 0xFFFF);
-    }
-
-    // POP: [57] [10] [Dest] [SP] [Imm]
-    // Syntax: POP Dest, Offset
-    if (!strcmp(m, "POP"))
-    {
-        op = 57; ctrl = 2;
-        GET_REG(r_dest, a[0]);
-        r_src1 = 15; // SP
-        imm_val = parse_arg(a[1]);
         return (op << 26) | (ctrl << 24) | (r_dest << 20) | (r_src1 << 16) | (imm_val & 0xFFFF);
     }
 
