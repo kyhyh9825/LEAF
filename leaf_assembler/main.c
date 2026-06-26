@@ -69,6 +69,7 @@ int parse_reg(const char* s)
 
     // SP (Stack Pointer)
     if (!strcasecmp(s, "SP")) return 15;
+    if (!strcasecmp(s, "BP")) return 14;
 
     // R0~R15
     if (toupper(s[0]) == 'R')
